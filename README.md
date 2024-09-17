@@ -7,9 +7,37 @@
 ```django
 {% load whiff %}
 
-{% whiff user as current_user %}
-  <p>Welcome back, {{ current_user.username }}!</p>
-{% endwhiff %}
+{% block content %}
+  {% whiff current_user as user %}
+    <h1>Welcome back, {{ user.first_name }} {{ user.last_name }}!</h1>
+    <p>Your last login was on {{ user.last_login|date:"F j, Y, g:i a" }}.</p>
+
+    {% whiff user_profile as profile %}
+      <h2>Your Profile</h2>
+      <ul>
+        <li>Email: {{ profile.email }}</li>
+        <li>Joined: {{ profile.date_joined|date:"F j, Y" }}</li>
+        <li>Bio: {{ profile.bio }}</li>
+      </ul>
+    {% endwhiff %}
+
+    {% whiff recent_articles as articles %}
+      <h3>Your Recent Articles</h3>
+      <ul>
+        {% for article in articles %}
+          <li>
+            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+            <small>Published on {{ article.published_date|date:"F j, Y" }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endwhiff %}
+
+  {% else %}
+    <h1>Welcome to Our Site!</h1>
+    <p>Please <a href="{% url 'login' %}">log in</a> to access your account.</p>
+  {% endwhiff %}
+{% endblock %}
 ```
 
 If `user` is present and truthy, a welcome message is displayed. Otherwise, nothing is rendered.
