@@ -1,7 +1,18 @@
-```markdown
 # django-whiff
 
 `django-whiff` is a simple Django template tag that combines the functionality of the `with` and `if` tags, inspired by the Python walrus operator (`:=`). It allows you to assign a variable and immediately check if it is truthy, rendering content if it is.
+
+## Example
+
+```django
+{% load whiff %}
+
+{% whiff user as current_user %}
+  <p>Welcome back, {{ current_user.username }}!</p>
+{% endwhiff %}
+```
+
+If `user` is present and truthy, a welcome message is displayed. Otherwise, nothing is rendered.
 
 ## Features
 
@@ -33,23 +44,13 @@ INSTALLED_APPS = [
 ]
 ```
 
+> Note *the underscore*, not hyphen.
+
 ### How It Works
 
 - The `whiff` tag assigns the value of `some_obj` to `obj`.
 - If `some_obj` is truthy, the content inside the `whiff` block is rendered.
 - If `some_obj` is falsey, nothing is rendered.
-
-## Example
-
-```django
-{% load whiff %}
-
-{% whiff user as current_user %}
-  <p>Welcome back, {{ current_user.username }}!</p>
-{% endwhiff %}
-```
-
-In this example, if `user` is present and truthy, a welcome message is displayed. Otherwise, nothing is rendered.
 
 
 ## Tests
