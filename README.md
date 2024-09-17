@@ -40,8 +40,6 @@
 {% endblock %}
 ```
 
-If `user` is present and truthy, a welcome message is displayed. Otherwise, nothing is rendered.
-
 ## Features
 
 - Combines `with` and `if` in a single template tag.
